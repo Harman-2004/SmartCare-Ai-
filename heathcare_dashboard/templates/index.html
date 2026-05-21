@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmartCare AI Health Companion</title>
+    <meta name="theme-color" content="#0d151c">
+    
+    <!-- Premium Fonts and Styling -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <main class="app-shell">
+        
+        <!-- ================== HEADER ================== -->
+        <header class="app-header">
+            <div class="header-left">
+                <span class="eyebrow">Elderly Care IoT</span>
+                <h1>SmartCare <span class="gradient-text">AI</span></h1>
+            </div>
+            <div class="header-right">
+                <div class="live-pill">
+                    <span class="live-glow"></span>
+                    <span>Live</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- ================== TAB 1: DASHBOARD ================== -->
+        <section id="tab-dashboard" class="tab-content active">
+            <!-- ECG Glassmorphic Hero Panel -->
+            <div class="hero-panel">
+                <div class="hero-background"></div>
+                <div class="hero-header">
+                    <div class="patient-profile">
+                        <div class="avatar-ring">
+                            <span class="avatar">EP</span>
+                        </div>
+                        <div>
+                            <span class="avatar-name">Elderly Patient</span>
+                            <span class="avatar-status">Real-time vitals</span>
+                        </div>
+                    </div>
+                    <span id="heartBadge" class="badge warning-badge">Waiting</span>
+                </div>
+
+                <div class="hero-vitals">
+                    <div class="vital-readout">
+                        <span class="vital-value" id="bpm">--</span>
+                        <span class="vital-unit">BPM</span>
+                    </div>
+                    
+                    <!-- Dynamic ECG SVG Wave -->
+                    <div class="ecg-container">
+                        <svg id="ecg-wave" viewBox="0 0 300 60" preserveAspectRatio="none">
+                            <path class="ecg-path" d="M0,30 L30,30 L35,28 L40,30 M40,30 L60,30 L65,10 L70,50 L75,30 L80,30 M80,30 L110,30 L115,28 L120,30 M120,30 L140,30 L145,10 L150,50 L155,30 L160,30 M160,30 L190,30 L195,28 L200,30 M200,30 L220,30 L225,10 L230,50 L235,30 L240,30 M240,30 L270,30 L275,28 L280,30 M280,30 L300,30" stroke="var(--cyan)" stroke-width="2.5" fill="none" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="hero-footer">
+                    <span id="heartUpdated" class="footer-time">Waiting for data connection...</span>
+                </div>
+            </div>
+
+            <!-- Quick Overview Strip -->
+            <div class="quick-strip">
+                <div class="strip-card">
+                    <span class="strip-icon-container circle-amber">
+                        <svg class="strip-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" fill="currentColor"/></svg>
+                    </span>
+                    <div>
+                        <strong id="consciousness">Unknown</strong>
+                        <span>Consciousness</span>
+                    </div>
+                </div>
+                <div class="strip-card">
+                    <span class="strip-icon-container circle-purple">
+                        <svg class="strip-icon" viewBox="0 0 24 24"><path d="M4.5 10.5C3.67 10.5 3 11.17 3 12s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-15z" fill="currentColor"/><path d="M6 3h12v4H6zm0 13h12v5H6z" fill="currentColor"/></svg>
+                    </span>
+                    <div>
+                        <strong id="medicineMini">No scan</strong>
+                        <span>Last Medicine</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Status Info Card -->
+            <div class="card glass-card margin-top-md">
+                <div class="card-header">
+                    <div class="card-title-group">
+                        <span class="icon-chip bg-pulse">
+                            <svg class="chip-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg>
+                        </span>
+                        <div>
+                            <h3>Active Guardian</h3>
+                            <p class="subtitle">MAX30102 Diagnostic System</p>
+                        </div>
+                    </div>
+                    <span id="heartStatusText" class="status-indicator-text yellow">STANDBY</span>
+                </div>
+                <p class="card-body-text">
+                    Measuring arterial oxygen levels and heart rate variability from the handheld Pi interface. If vitals become unstable, emergency triggers will auto-activate to assist the elder patient.
+                </p>
+            </div>
+        </section>
+
+        <!-- ================== TAB 2: MEDICINE DETECTOR ================== -->
+        <section id="tab-medicine" class="tab-content">
+            <div class="card glass-card scanner-outer-card">
+                <div class="scanner-viewport">
+                    <div class="scanner-laser"></div>
+                    <div class="scanner-overlay-corner top-left"></div>
+                    <div class="scanner-overlay-corner top-right"></div>
+                    <div class="scanner-overlay-corner bottom-left"></div>
+                    <div class="scanner-overlay-corner bottom-right"></div>
+                    
+                    <div class="scanner-view-content">
+                        <svg class="scanner-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-12.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z" fill="currentColor"/></svg>
+                        <p id="medicineScanOverlayText">Show medicine strip to Raspberry Pi Camera</p>
+                    </div>
+                </div>
+
+                <div class="medicine-detail-box">
+                    <div class="med-detail-header">
+                        <div>
+                            <span class="icon-chip bg-med">Rx</span>
+                            <h2 id="medicineName">No medicine scanned</h2>
+                        </div>
+                        <span id="medicineUpdated" class="status-indicator-text">No scan</span>
+                    </div>
+
+                    <div class="med-info-group">
+                        <div class="med-info-row">
+                            <span class="info-label">PRIMARY USES</span>
+                            <p id="medicineUse" class="info-content">Waiting for Raspberry Pi camera OCR trigger or simulation input.</p>
+                        </div>
+                        
+                        <div class="med-info-row">
+                            <span class="info-label">RECOMMENDED DOSAGE</span>
+                            <p id="medicineDosage" class="info-content">Please consult with a licensed doctor or pharmacist before using medicines.</p>
+                        </div>
+                        
+                        <div class="med-info-row warning-row">
+                            <span class="info-label text-red">SAFETY WARNING</span>
+                            <p id="medicineWarning" class="info-content text-red">Do not consume unknown medications. Verify the accuracy of OCR detection manually.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================== TAB 3: LOGS HISTORY ================== -->
+        <section id="tab-logs" class="tab-content">
+            <div class="card glass-card">
+                <div class="card-header border-bottom">
+                    <div class="card-title-group">
+                        <span class="icon-chip bg-logs">
+                            <svg class="chip-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg>
+                        </span>
+                        <div>
+                            <h3>Vitals History</h3>
+                            <p class="subtitle">Recent telemetry and AI events</p>
+                        </div>
+                    </div>
+                    <span class="badge count-badge" id="activityCount">0</span>
+                </div>
+                
+                <div id="historyList" class="history-list">
+                    <p class="empty-state">No telemetry data recorded yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================== TAB 4: SETTINGS & SIMULATOR ================== -->
+        <section id="tab-settings" class="tab-content">
+            <!-- App Themes & Settings -->
+            <div class="card glass-card">
+                <div class="card-header border-bottom">
+                    <div class="card-title-group">
+                        <span class="icon-chip bg-settings">
+                            <svg class="chip-svg" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/></svg>
+                        </span>
+                        <div>
+                            <h3>Application Settings</h3>
+                            <p class="subtitle">Visual and integration config</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-list">
+                    <div class="settings-item">
+                        <div>
+                            <strong>Dark Theme</strong>
+                            <p class="settings-desc">Reduce glare for evening elderly care</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="darkModeSwitch" onchange="toggleDarkMode()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="settings-item">
+                        <div>
+                            <strong>PWA Status</strong>
+                            <p id="pwaStatusText" class="settings-desc">Stand-alone app installation ready</p>
+                        </div>
+                        <span class="status-indicator-dot green"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Demo / Hardware Simulator Card -->
+            <div class="card glass-card margin-top-md">
+                <div class="card-header border-bottom">
+                    <div class="card-title-group">
+                        <span class="icon-chip bg-sim">
+                            <svg class="chip-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z" fill="currentColor"/></svg>
+                        </span>
+                        <div>
+                            <h3>Pi Telemetry Simulator</h3>
+                            <p class="subtitle">Mock sensor streams for offline testing</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="card-body-text">
+                    Use these telemetry injection inputs to test the app dynamically before your teammate hooks up the Raspberry Pi GPIO sensors.
+                </p>
+
+                <!-- BPM Mock Ingestion -->
+                <div class="simulator-field">
+                    <label for="demoBpm">Inject Vitals (BPM)</label>
+                    <div class="input-action-group">
+                        <input id="demoBpm" type="number" min="0" max="220" placeholder="e.g. 78 BPM">
+                        <button onclick="sendHeartRate()" class="gradient-btn-pulse">Inject</button>
+                    </div>
+                </div>
+
+                <!-- Medicine Mock Ingestion -->
+                <div class="simulator-field">
+                    <label for="demoMedicine">Inject Medicine OCR Scan</label>
+                    <div class="input-action-group">
+                        <input id="demoMedicine" type="text" placeholder="e.g. Dolo 650, Cetirizine">
+                        <button onclick="sendMedicine()" class="gradient-btn-med">Scan</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================== BOTTOM NAV BAR ================== -->
+        <nav class="bottom-nav">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn active">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
+                <span>Dashboard</span>
+            </button>
+            <button onclick="switchTab('medicine')" id="nav-medicine" class="nav-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-12.5c-2.48 0-4.5 2.02-4.5 4.5s2.02 4.5 4.5 4.5 4.5-2.02 4.5-4.5-2.02-4.5-4.5-4.5z" fill="currentColor"/></svg>
+                <span>Scanner</span>
+            </button>
+            <button onclick="switchTab('logs')" id="nav-logs" class="nav-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg>
+                <span>Logs</span>
+            </button>
+            <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn">
+                <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" fill="currentColor"/></svg>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </main>
+
+    <!-- Global Toast Alert -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+  <!-- Slashed wifi off indicator vector -->
+  <path
+      android:fillColor="#FFFFFF"
+      android:pathData="M22.92,9.12c-0.5,-0.38 -5.48,-4.12 -10.92,-4.12 -0.88,0 -1.74,0.1 -2.57,0.28l1.45,1.45C11.37,6.73 11.69,6.72 12,6.72c4.13,0 7.42,2.44 8.27,3.01l-1.39,1.72 1.43,1.43 2.61,-3.23c0.41,-0.52 0.41,-1.29 0,-1.81zM2.29,3L1,4.27l2.85,2.85C3.39,7.58 2.9,7.99 2.53,8.3c-0.41,0.52 -0.41,1.29 0,1.81L11.18,20.8c0.42,0.52 1.21,0.52 1.63,0l1.83,-2.26 5.09,5.09L21,22.36 2.29,3zM12,18.06L4.74,9.07c0.23,-0.18 1.83,-1.33 4.54,-1.88l6.9,6.9L12,18.06z"/>
+</vector>

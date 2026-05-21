@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="24dp"
+    tools:context=".OfflineActivity">
+
+    <!-- Center content container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Offline Graphic -->
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_offline"
+            app:tint="@color/status_red" />
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignment="center"
+            android:gravity="center"
+            android:text="@string/title_offline"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-black"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Info details -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignment="center"
+            android:gravity="center"
+            android:text="@string/desc_offline"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="13sp"
+            android:lineSpacingExtra="4sp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Diagnostics Card showing targeted server -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/bg_panel_dark"
+            app:cardElevation="0dp"
+            android:layout_marginBottom="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lbl_target_server"
+                    android:textColor="@color/text_secondary_dark"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-black"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    android:id="@+id/tvTargetServer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="http://192.168.1.15:5000"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Retry Button -->
+        <Button
+            android:id="@+id/btnRetry"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/cyan_accent"
+            android:textColor="@color/bg_dark"
+            android:text="@string/btn_retry"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            app:cornerRadius="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Configure IP Link -->
+        <Button
+            android:id="@+id/btnConfigIp"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:backgroundTint="@color/bg_panel_dark"
+            android:textColor="@color/white"
+            android:text="@string/btn_configure"
+            android:textSize="14sp"
+            android:fontFamily="sans-serif-black"
+            app:cornerRadius="16dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

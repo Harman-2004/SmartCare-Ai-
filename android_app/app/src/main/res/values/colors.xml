@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand colors matching the web app theme -->
+    <color name="bg_dark">#090E14</color>
+    <color name="bg_panel_dark">#141D26</color>
+    <color name="text_primary_dark">#F0F4F8</color>
+    <color name="text_secondary_dark">#8A9BA8</color>
+    
+    <!-- Accent gradients and status indicators -->
+    <color name="cyan_accent">#00F2FE</color>
+    <color name="blue_accent">#4FACFE</color>
+    <color name="violet_accent">#8E2DE2</color>
+    
+    <color name="status_green">#00E676</color>
+    <color name="status_red">#FF3D00</color>
+    <color name="status_amber">#FFEA00</color>
+    
+    <!-- System base shades -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="gray_dark">#182026</color>
+    <color name="gray_light">#E1E8ED</color>
+</resources>

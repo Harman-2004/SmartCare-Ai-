@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- Sleek input background matching dark slate theme -->
+    <solid android:color="#090E14" />
+    <stroke
+        android:width="1.5dp"
+        android:color="#22FFFFFF" /> <!-- Thin semi-translucent white border -->
+    <corners android:radius="12dp" />
+</shape>
