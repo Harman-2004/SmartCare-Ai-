@@ -1,6 +1,7 @@
+import os
 from datetime import datetime
-
 from flask import Flask, jsonify, render_template, request
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -116,15 +117,42 @@ def heart_rate():
     return jsonify(latest_data["heart"])
 
 
+# Setup upload directory relative to root
+UPLOAD_FOLDER = os.path.join(app.root_path, 'static', 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
 @app.route('/api/medicine', methods=['GET', 'POST'])
 def medicine():
     if request.method == 'POST':
-        payload = request.get_json(silent=True) or {}
-        scanned_text = payload.get("name") or payload.get("text") or ""
+        scanned_text = ""
+        image_url = latest_data["medicine"].get("image_url")
+
+        # Check if request has an image uploaded as multipart form-data
+        if 'image' in request.files:
+            file = request.files['image']
+            if file and file.filename != '':
+                filename = secure_filename(file.filename)
+                # Keep a single file for dashboard simplicity, or use timestamp for unique files
+                base, ext = os.path.splitext(filename)
+                unique_filename = f"scanned_med{ext}"
+                save_path = os.path.join(UPLOAD_FOLDER, unique_filename)
+                file.save(save_path)
+                # Use timestamp-busting param for image reloading in cache
+                image_url = f"/static/uploads/{unique_filename}?t={int(datetime.now().timestamp())}"
+            
+            scanned_text = request.form.get("name") or request.form.get("text") or ""
+        else:
+            # Fallback to standard JSON parsing
+            payload = request.get_json(silent=True) or {}
+            scanned_text = payload.get("name") or payload.get("text") or ""
+            if "image_url" in payload:
+                image_url = payload.get("image_url")
+
         details = find_medicine(scanned_text)
 
         latest_data["medicine"] = {
             **details,
+            "image_url": image_url,
             "updated_at": now_text(),
         }
         history.append({

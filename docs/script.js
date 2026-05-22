@@ -167,6 +167,40 @@ function updateMedicine(medicine) {
     setText("medicineWarning", medicine.warning || "Do not consume unknown medicine.");
     setText("medicineUpdated", medicine.updated_at || "No scan recorded");
 
+    // Scanned image display handling
+    const medImg = document.getElementById("scannedMedImage");
+    const viewContent = document.querySelector(".scanner-view-content");
+    const laser = document.querySelector(".scanner-laser");
+
+    if (medImg) {
+        // If we are in client-side simulation, select a premium medical stock photo based on the name!
+        let imageUrl = medicine.image_url;
+        if (isClientSideSimulation && medName !== "No medicine scanned") {
+            const clean = medName.toLowerCase();
+            if (clean.includes("dolo") || clean.includes("paracetamol")) {
+                imageUrl = "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400&q=80"; // Blue capsules
+            } else if (clean.includes("cetirizine") || clean.includes("allergy")) {
+                imageUrl = "https://images.unsplash.com/photo-1628771065518-0d82f1938462?w=400&q=80"; // Pill blister pack
+            } else if (clean.includes("aspirin")) {
+                imageUrl = "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=400&q=80"; // Medicine box
+            } else {
+                imageUrl = "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?w=400&q=80"; // Prescription bottle
+            }
+        }
+
+        if (imageUrl && medName !== "No medicine scanned") {
+            medImg.src = imageUrl;
+            medImg.style.display = "block";
+            if (viewContent) viewContent.style.opacity = "0.15"; // Dim the guidance overlay
+            if (laser) laser.style.display = "none"; // Hide laser on scan success
+        } else {
+            medImg.src = "";
+            medImg.style.display = "none";
+            if (viewContent) viewContent.style.opacity = "1";
+            if (laser) laser.style.display = "block";
+        }
+    }
+
     const overlayText = document.getElementById("medicineScanOverlayText");
     if (overlayText) {
         if (medName !== "No medicine scanned") {

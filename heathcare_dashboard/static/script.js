@@ -154,6 +154,25 @@ function updateMedicine(medicine) {
     setText("medicineWarning", medicine.warning || "Do not consume unknown medications.");
     setText("medicineUpdated", medicine.updated_at || "No scan recorded");
 
+    // Scanned image display handling
+    const medImg = document.getElementById("scannedMedImage");
+    const viewContent = document.querySelector(".scanner-view-content");
+    const laser = document.querySelector(".scanner-laser");
+
+    if (medImg) {
+        if (medicine.image_url && medName !== "No medicine scanned") {
+            medImg.src = medicine.image_url;
+            medImg.style.display = "block";
+            if (viewContent) viewContent.style.opacity = "0.15"; // Dim the guidance overlay
+            if (laser) laser.style.display = "none"; // Stop scanning laser
+        } else {
+            medImg.src = "";
+            medImg.style.display = "none";
+            if (viewContent) viewContent.style.opacity = "1";
+            if (laser) laser.style.display = "block";
+        }
+    }
+
     // Scanner overlay text
     const overlayText = document.getElementById("medicineScanOverlayText");
     if (overlayText) {
